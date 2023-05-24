@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://vjs.zencdn.net/8.3.0/video-js.css"
+            rel="stylesheet"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="node_modules/lightgallery/css/lightgallery-bundle.min.css"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.13.0/player.min.js"
+            integrity="sha512-gChplnQw7jkk2Axylkdz4PMZCJd5wolmvv3sUZH4m/JrPs1ac5Db7Tms+l1JmZBto6DX8cpE74KTMwS1aOc4bg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <title>Video v2</title>
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: auto auto;
+                gap: 5rem;
+            }
+
+            .column {
+                position: relative;
+                cursor: pointer;
+            }
+
+            .thumbnail {
+                height: 100%;
+                cursor: pointer;
+            }
+
+            .thumbnail img {
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+
+            .video-container {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .video-container video {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: auto;
+                height: auto;
+                min-width: 100%;
+                min-height: 100%;
+                pointer-events: none;
+                object-fit: cover;
+            }
+
+            @media (max-width: 650px) {
+                .container {
+                    grid-template-columns: auto;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="gallery-videojs-demo" class="container">
+            <a
+                class="column"
+                data-lg-size="1280-720"
+                data-video='{"source": [{"src":"https://player.vimeo.com/431680358", "type":"video/mp4"}], "attributes": {"preload": "none", "controls": true}}'
+                data-poster="https://images.unsplash.com/photo-1502613374390-8da7aa532177?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+                data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>"
+            >
+                <div class="thumbnail">
+                    <img
+                        class="img-responsive"
+                        src="https://images.unsplash.com/photo-1502613374390-8da7aa532177?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+                    />
+                </div>
+                <div class="video-container">
+                    <video
+                        data-src="https://player.vimeo.com/external/431680358.sd.mp4?s=3f97b05e5d5dab21298a96bb5653849567aaf675&profile_id=164&oauth2_token_id=57447761"
+                        type="video/mp4"
+                    ></video>
+                </div>
+            </a>
+            <a
+                class="column"
+                data-lg-size="1280-720"
+                data-video='{"source": [{"src":"https://player.vimeo.com/503759306", "type":"video/mp4"}], "attributes": {"preload": "none", "controls": true}}'
+                data-poster="https://images.unsplash.com/photo-1591280063444-d3c514eb6e13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+                data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>"
+            >
+                <div class="thumbnail">
+                    <img
+                        class="img-responsive"
+                        src="https://images.unsplash.com/photo-1591280063444-d3c514eb6e13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+                    />
+                </div>
+                <div class="video-container">
+                    <video
+                        data-src="https://player.vimeo.com/external/503759306.sd.mp4?s=273116dd8b495498766d3fe03e8416fff0cc68b5&profile_id=164&oauth2_token_id=57447761"
+                        type="video/mp4"
+                    ></video>
+                </div>
+            </a>
+        </div>
+        <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+        <script src="node_modules/lightgallery/lightgallery.min.js"></script>
+        <script src="node_modules/lightgallery/plugins/video/lg-video.min.js"></script>
+        <script>
+            function handleClick() {
+                const clickedVideoSrc = event.currentTarget.dataset.video;
+
+                const galleryData = {
+                    dynamic: true,
+                    dynamicEl: [
+                        {
+                            src: clickedVideoSrc,
+                            poster: event.currentTarget.dataset.poster,
+                            html: event.currentTarget.dataset.subHtml,
+                        },
+                    ],
+                };
+                const lgInstance = lightGallery(
+                    document.getElementById("gallery-videojs-demo"),
+                    {
+                        plugins: [lgVideo],
+                        videojs: true,
+                        videojsOptions: {
+                            muted: true,
+                        },
+                        ...galleryData,
+                    }
+                );
+                lgInstance.openGallery();
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const columns = document.querySelectorAll(".column");
+
+                columns.forEach((column) => {
+                    const thumbnail = column.querySelector(".thumbnail");
+                    const videoContainer =
+                        column.querySelector(".video-container");
+                    const video = videoContainer.querySelector("video");
+                    let isVideoLoaded = false;
+
+                    video.addEventListener("loadeddata", () => {
+                        thumbnail.style.opacity = "0";
+                        video.style.display = "block";
+                        isVideoLoaded = true;
+                    });
+
+                    document.addEventListener("click", handleClickOutside);
+
+                    if (window.matchMedia("(hover: hover)").matches) {
+                        // Device supports hover (desktop/laptop)
+                        column.addEventListener("mouseenter", handleMouseEnter);
+                        column.addEventListener("mouseleave", handleMouseLeave);
+                        column.addEventListener("click", handleClickInside);
+                    } else if (window.matchMedia("(hover: none)").matches) {
+                        // Device does not support hover (mobile)
+                        column.addEventListener("touchstart", () => {
+                            handleTouchStart();
+                            handleClickInside();
+                        });
+                        column.addEventListener("touchend", handleTouchEnd);
+                    }
+
+                    async function handleTouchEnd(event) {
+                        if (!player.paused()) {
+                            return;
+                        }
+
+                        await loadVideoIfNotLoaded();
+                        hideThumbnailAndPlay();
+                    }
+
+                    async function loadVideoIfNotLoaded() {
+                        if (!isVideoLoaded) {
+                            await loadVideo();
+                        }
+                    }
+
+                    async function loadVideo() {
+                        const dataSrc = video.getAttribute("data-src");
+                        if (dataSrc && !isVideoLoaded) {
+                            return new Promise((resolve, reject) => {
+                                video.src = dataSrc;
+                                video.load();
+                                video.addEventListener("loadeddata", () => {
+                                    isVideoLoaded = true;
+                                    resolve();
+                                });
+                                video.addEventListener("error", reject);
+                            });
+                        }
+                    }
+
+                    function hideThumbnailAndPlay() {
+                        thumbnail.style.opacity = "0";
+                        videoContainer.style.display = "block";
+                        player.play();
+                    }
+
+                    function handleMouseEnter() {
+                        if (!player.paused()) {
+                            return;
+                        }
+                        loadVideoIfNotLoaded()
+                            .then(hideThumbnailAndPlay)
+                            .catch((error) => {
+                                console.error("Error loading video:", error);
+                            });
+                    }
+
+                    function handleMouseLeave() {
+                        thumbnail.style.opacity = "1";
+                        player.pause();
+                        player.currentTime(0);
+                        videoContainer.style.display = "none";
+                    }
+
+                    function handleTouchStart(event) {
+                        loadVideoIfNotLoaded()
+                            .then(hideThumbnailAndPlay)
+                            .catch((error) => {
+                                console.error("Error loading video:", error);
+                            });
+                    }
+
+                    function handleClickOutside(event) {
+                        const isClickInsideVideoContainer =
+                            event.target.closest(".video-container");
+                        const videoContainers =
+                            document.querySelectorAll(".video-container");
+
+                        if (!isClickInsideVideoContainer) {
+                            videoContainers.forEach((container) => {
+                                const video = container.querySelector("video");
+                                const thumbnail =
+                                    container.parentElement.querySelector(
+                                        ".thumbnail"
+                                    );
+
+                                thumbnail.style.opacity = "1";
+                                player.pause();
+                                player.currentTime(0);
+                                container.style.display = "none";
+                            });
+                        }
+                    }
+
+                    function handleClickInside() {
+                        if (!video.paused) {
+                            handleClick();
+                        }
+                    }
+
+                    // Initialize the video player
+                    const player = videojs(video, {
+                        autoplay: false,
+                        muted: true,
+                        loop: true,
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
