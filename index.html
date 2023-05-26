@@ -66,6 +66,9 @@
                 pointer-events: none;
                 object-fit: cover;
             }
+            .player .vp-player-ui-overlays {
+                display: none !important;
+            }
 
             @media (max-width: 650px) {
                 .container {
@@ -79,7 +82,7 @@
             <a
                 class="column"
                 data-lg-size="1280-720"
-                data-video='{"source": [{"src":"https://player.vimeo.com/431680358", "type":"video/mp4"}], "attributes": {"preload": "none", "controls": true}}'
+                data-video='{"source": [{"src":"https://player.vimeo.com/431680358", "type":"video/mp4"}], "attributes": {"preload": "true", "controls": true}}'
                 data-poster="https://images.unsplash.com/photo-1502613374390-8da7aa532177?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
                 data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>"
             >
@@ -99,7 +102,7 @@
             <a
                 class="column"
                 data-lg-size="1280-720"
-                data-video='{"source": [{"src":"https://player.vimeo.com/503759306", "type":"video/mp4"}], "attributes": {"preload": "none", "controls": true}}'
+                data-video='{"source": [{"src":"https://player.vimeo.com/503759306", "type":"video/mp4"}], "attributes": {"preload": "true", "controls": true}}'
                 data-poster="https://images.unsplash.com/photo-1591280063444-d3c514eb6e13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
                 data-sub-html="<h4>'Peck Pocketed' by Kevin Herron | Disney Favorite</h4>"
             >
@@ -175,29 +178,9 @@
                     });
 
                     document.addEventListener("click", handleClickOutside);
-
-                    if (window.matchMedia("(hover: hover)").matches) {
-                        // Device supports hover (desktop/laptop)
-                        column.addEventListener("mouseenter", handleMouseEnter);
-                        column.addEventListener("mouseleave", handleMouseLeave);
-                        column.addEventListener("click", handleClickInside);
-                    } else if (window.matchMedia("(hover: none)").matches) {
-                        // Device does not support hover (mobile)
-                        column.addEventListener("touchstart", () => {
-                            handleTouchStart();
-                            handleClickInside();
-                        });
-                        column.addEventListener("touchend", handleTouchEnd);
-                    }
-
-                    async function handleTouchEnd(event) {
-                        if (!player.paused()) {
-                            return;
-                        }
-
-                        await loadVideoIfNotLoaded();
-                        hideThumbnailAndPlay();
-                    }
+                    column.addEventListener("mouseenter", handleMouseEnter);
+                    column.addEventListener("mouseleave", handleMouseLeave);
+                    column.addEventListener("click", handleClickInside);
 
                     async function loadVideoIfNotLoaded() {
                         if (!isVideoLoaded) {
@@ -242,14 +225,6 @@
                         player.pause();
                         player.currentTime(0);
                         videoContainer.style.display = "none";
-                    }
-
-                    function handleTouchStart(event) {
-                        loadVideoIfNotLoaded()
-                            .then(hideThumbnailAndPlay)
-                            .catch((error) => {
-                                console.error("Error loading video:", error);
-                            });
                     }
 
                     function handleClickOutside(event) {
