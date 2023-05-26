@@ -173,7 +173,7 @@
                     let isVideoLoaded = false;
 
                     video.addEventListener("loadeddata", () => {
-                        thumbnail.style.opacity = "0";
+                        //thumbnail.style.opacity = "0";
                         video.style.display = "block";
                         isVideoLoaded = true;
                     });
@@ -205,7 +205,7 @@
                     }
 
                     function hideThumbnailAndPlay() {
-                        thumbnail.style.opacity = "0";
+                        //thumbnail.style.opacity = "0";
                         videoContainer.style.display = "block";
                         player.play();
                     }
@@ -222,7 +222,7 @@
                     }
 
                     function handleMouseLeave() {
-                        thumbnail.style.opacity = "1";
+                        //thumbnail.style.opacity = "1";
                         player.pause();
                         player.currentTime(0);
                         videoContainer.style.display = "none";
@@ -242,7 +242,7 @@
                                         ".thumbnail"
                                     );
 
-                                thumbnail.style.opacity = "1";
+                                //thumbnail.style.opacity = "1";
                                 player.pause();
                                 player.currentTime(0);
                                 container.style.display = "none";
