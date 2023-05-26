@@ -137,18 +137,19 @@
         ></script>
         <script>
             function handleClick() {
-                const clickedVideoSrc = event.currentTarget.dataset.video;
+                const clickedElementDataset = event.currentTarget.dataset;
 
                 const galleryData = {
                     dynamic: true,
                     dynamicEl: [
                         {
-                            src: clickedVideoSrc,
-                            poster: event.currentTarget.dataset.poster,
-                            html: event.currentTarget.dataset.subHtml,
+                            src: clickedElementDataset.video,
+                            poster: clickedElementDataset.poster,
+                            html: clickedElementDataset.subHtml,
                         },
                     ],
                 };
+
                 const lgInstance = lightGallery(
                     document.getElementById("gallery-videojs-demo"),
                     {
@@ -174,7 +175,6 @@
                     let isVideoLoaded = false;
 
                     video.addEventListener("loadeddata", () => {
-                        //thumbnail.style.opacity = "0";
                         video.style.display = "block";
                         isVideoLoaded = true;
                     });
@@ -206,7 +206,6 @@
                     }
 
                     function hideThumbnailAndPlay() {
-                        //thumbnail.style.opacity = "0";
                         videoContainer.style.display = "block";
                         player.play();
                     }
@@ -223,7 +222,6 @@
                     }
 
                     function handleMouseLeave() {
-                        //thumbnail.style.opacity = "1";
                         player.pause();
                         player.currentTime(0);
                         videoContainer.style.display = "none";
@@ -243,7 +241,6 @@
                                         ".thumbnail"
                                     );
 
-                                //thumbnail.style.opacity = "1";
                                 player.pause();
                                 player.currentTime(0);
                                 container.style.display = "none";
