@@ -136,6 +136,7 @@
             referrerpolicy="no-referrer"
         ></script>
         <script>
+            //open the lightgallery on click
             function handleClick() {
                 const clickedElementDataset = event.currentTarget.dataset;
 
@@ -175,14 +176,22 @@
                     let isVideoLoaded = false;
 
                     video.addEventListener("loadeddata", () => {
-                        video.style.display = "block";
+                        videoContainer.style.display = "block";
                         isVideoLoaded = true;
                     });
 
                     document.addEventListener("click", handleClickOutside);
-                    column.addEventListener("mouseenter", handleMouseEnter);
-                    column.addEventListener("mouseleave", handleMouseLeave);
-                    column.addEventListener("click", handleClickInside);
+
+                    if (window.matchMedia("(hover: hover)").matches) {
+                        // Device supports hover (desktop/laptop)
+                        column.addEventListener("mouseenter", handleMouseEnter);
+                        column.addEventListener("mouseleave", handleMouseLeave);
+                        column.addEventListener("click", handleClickInside);
+                    } else if (window.matchMedia("(hover: none)").matches) {
+                        column.addEventListener("click", () => {
+                            video.paused ? handleMouseEnter() : handleClick();
+                        });
+                    }
 
                     async function loadVideoIfNotLoaded() {
                         if (!isVideoLoaded) {
@@ -205,7 +214,7 @@
                         }
                     }
 
-                    function hideThumbnailAndPlay() {
+                    function playVideo() {
                         videoContainer.style.display = "block";
                         player.play();
                     }
@@ -215,7 +224,7 @@
                             return;
                         }
                         loadVideoIfNotLoaded()
-                            .then(hideThumbnailAndPlay)
+                            .then(playVideo)
                             .catch((error) => {
                                 console.error("Error loading video:", error);
                             });
@@ -236,11 +245,6 @@
                         if (!isClickInsideVideoContainer) {
                             videoContainers.forEach((container) => {
                                 const video = container.querySelector("video");
-                                const thumbnail =
-                                    container.parentElement.querySelector(
-                                        ".thumbnail"
-                                    );
-
                                 player.pause();
                                 player.currentTime(0);
                                 container.style.display = "none";
